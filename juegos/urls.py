@@ -61,4 +61,5 @@ urlpatterns = [
 
     #Api
     path('api/juegos/', views.juego_list, name='juegos_api'),
+    
 ]
