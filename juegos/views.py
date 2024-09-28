@@ -359,26 +359,62 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 
 
+# VISTA PARA LISTAR JUEGOS (GET) Y CREAR NUEVO JUEGO (POST)
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated]) #requiere autenticación
+@permission_classes([IsAuthenticated])
 def juego_list(request):
     if request.method == 'GET':
+        # Obtener todos los juegos
         juegos = Juego.objects.all()
         serializer = JuegoSerializer(juegos, many=True)
         return Response(serializer.data)
-    
+
     elif request.method == 'POST':
+        # Crear un nuevo juego
         serializer = JuegoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# VISTA PARA OBTENER, ACTUALIZAR Y ELIMINAR UN JUEGO ESPECÍFICO
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def juego_detail(request, juego_id):
+    try:
+        # Buscar el juego por su ID
+        juego = Juego.objects.get(pk=juego_id)
+    except Juego.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        # Obtener detalles de un juego específico
+        serializer = JuegoSerializer(juego)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        # Actualizar un juego específico
+        serializer = JuegoSerializer(juego, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        # Eliminar un juego específico
+        juego.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
     
 import requests
 from django.shortcuts import render, get_object_or_404
 from .models import Juego  # Asegúrate de importar el modelo Juego
 
 # Vista que lista los juegos y asigna los api_ids manualmente
+@login_required
+@user_passes_test(is_admin)
 def lista_juegos(request):
     # Obtener la lista de juegos desde la base de datos
     juegos = Juego.objects.all()
@@ -409,7 +445,7 @@ def lista_juegos(request):
 # Vista que obtiene los detalles de un juego desde la API de RAWG
 def detalles_juego(request, game_id):
     # Usar el game_id para hacer la petición a la API de RAWG
-    url = f"https://api.rawg.io/api/games/{game_id}?key=134b55ec323f4c55b91d0c62690acfd9"  # Reemplaza con tu API key
+    url = f"https://api.rawg.io/api/games/{game_id}?key=21721eebaffa4347b72ecf763d91d4ba"  # Reemplaza con tu API key
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -419,3 +455,67 @@ def detalles_juego(request, game_id):
         # Si hubo un error al obtener los detalles del juego
         error_message = f"No se pudo obtener la información del juego (Error {response.status_code})"
         return render(request, 'juegos/detalles_juego.html', {'error': error_message})
+    
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Categoria
+from .serializers import CategoriaSerializer
+
+# Listar todas las categorías o crear una nueva
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])  # Requiere autenticación
+def categoria_list(request):
+    if request.method == 'GET':
+        categorias = Categoria.objects.all()
+        serializer = CategoriaSerializer(categorias, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = CategoriaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Obtener, actualizar o eliminar una categoría
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])  # Requiere autenticación
+def categoria_detail(request, pk):
+    try:
+        categoria = Categoria.objects.get(pk=pk)
+    except Categoria.DoesNotExist:
+        return Response({'error': 'Categoría no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CategoriaSerializer(categoria)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = CategoriaSerializer(categoria, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        categoria.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+import requests
+from django.shortcuts import render
+
+def consolas_videojuegos(request):
+    api_key = '21721eebaffa4347b72ecf763d91d4ba'  # Reemplaza con tu clave API de RAWG
+    url = f'https://api.rawg.io/api/platforms?key={api_key}'
+
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        plataformas = response.json().get('results', [])
+        print(plataformas)  # Imprime la respuesta para verificar los datos
+    else:
+        plataformas = []  # En caso de error, simplemente retorna una lista vacía
+
+    return render(request, 'juegos/consolas.html', {'plataformas': plataformas})

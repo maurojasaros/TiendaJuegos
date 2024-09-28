@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('juegos.urls')),
     path('', lambda request: redirect('juegos/')),
+    path('api',include('juegos.urls'))
 ]

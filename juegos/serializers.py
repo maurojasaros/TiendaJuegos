@@ -11,6 +11,6 @@ class CategoriaSerializer(serializers.ModelSerializer):
 class JuegoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Juego
-        fields = ['id', 'nombre', 'descripcion', 'precio', 'categoria']
+        fields = ['id', 'nombre', 'descripcion', 'precio', 'categoria','api_id']
 
 

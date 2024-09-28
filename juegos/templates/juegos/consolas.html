@@ -1,0 +1,44 @@
+{% extends "juegos/base_generic.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center">Consolas de Videojuegos</h1>
+        <div>
+            {% if plataformas %}
+                <ul class="list-group">
+                    {% for plataforma in plataformas %}
+                        <li class="list-group-item">
+                            <h2>{{ plataforma.name }}</h2>
+                            <p>ID: {{ plataforma.id }}</p>
+                            <p><strong>Juegos contados:</strong> {{ plataforma.games_count }}</p>
+                            <img src="{{ plataforma.image_background }}" alt="{{ plataforma.name }}" style="width: 100%; height: auto;">
+                            
+                            {% if plataforma.year_start %}
+                                <p><strong>Año de lanzamiento:</strong> {{ plataforma.year_start }}</p>
+                            {% endif %}
+                            
+                            {% if plataforma.year_end %}
+                                <p><strong>Año de descontinuación:</strong> {{ plataforma.year_end }}</p>
+                            {% endif %}
+                            
+                            {% if plataforma.description %}
+                                <p><strong>Descripción:</strong> {{ plataforma.description }}</p>
+                            {% endif %}
+                            
+                            <h3>Juegos Disponibles:</h3>
+                            <ul>
+                                {% for juego in plataforma.games %}
+                                    <li>{{ juego.name }}</li>
+                                {% empty %}
+                                    <li>No hay juegos disponibles para esta plataforma.</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-center">No se encontraron plataformas en este momento.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

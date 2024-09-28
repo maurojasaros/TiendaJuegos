@@ -61,8 +61,14 @@ urlpatterns = [
 
     #Api
     path('api/juegos/', views.juego_list, name='juegos_api'),
+    path('api/juegos/<int:juego_id>/', views.juego_detail, name='juego_detail'),  # GET, PUT y DELETE para un juego específico
     path('juego/detalle/<int:game_id>/', views.detalles_juego, name='detalles_juego'),
     path('juegos/', views.lista_juegos, name='lista_juegos'),
+    path('juegos/', views.juego_list, name='juego_list'),                # Para obtener y crear juegos
+    path('juegos/<int:juego_id>/', views.juego_list, name='juego_detail'),
+    path('api/categorias/', views.categoria_list, name='categoria-list'),
+    path('api/categorias/<int:pk>/', views.categoria_detail, name='categoria-detail'),
+    path('consolas/', views.consolas_videojuegos, name='consolas_videojuegos'),
     
     
     
