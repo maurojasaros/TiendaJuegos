@@ -19,7 +19,7 @@ urlpatterns = [
     
     # CRUD juegos
     path('lista_juegos/', views.listar_juegos, name='listar_juegos'),
-    path('juegos/crear', views.crear_juego, name='crear_juego'),
+    path('juegos/crear/', views.crear_juego, name='crear_juego'),
     path('juegos/ver/<int:pk>/', views.ver_juego, name='ver_juego'),
     path('juegos/editar/<int:pk>/', views.editar_juego, name='editar_juego'),
     path('juegos/eliminar/<int:pk>/', views.eliminar_juego, name='eliminar_juego'),
@@ -29,7 +29,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     
     # CRUD administración de categorías
-    
     path('crear_categoria/', views.crear_categoria, name='crear_categoria'),
     path('lista_categorias/', views.listar_categorias, name='listar_categorias'),
     path('categorias/editar/<int:pk>/', views.editar_categoria, name='editar_categoria'),
@@ -59,18 +58,14 @@ urlpatterns = [
     # Confirmación del pedido realizado
     path('confirmacion_pedido/<int:pedido_id>/', views.confirmacion_pedido, name='confirmacion_pedido'),
 
-    #Api
-    path('api/juegos/', views.juego_list, name='juegos_api'),
+    # API
+    path('api/juegos/', views.juego_list, name='juegos_api'),  # Para obtener y crear juegos
     path('api/juegos/<int:juego_id>/', views.juego_detail, name='juego_detail'),  # GET, PUT y DELETE para un juego específico
-    path('juego/detalle/<int:game_id>/', views.detalles_juego, name='detalles_juego'),
-    path('juegos/', views.lista_juegos, name='lista_juegos'),
-    path('juegos/', views.juego_list, name='juego_list'),                # Para obtener y crear juegos
-    path('juegos/<int:juego_id>/', views.juego_list, name='juego_detail'),
     path('api/categorias/', views.categoria_list, name='categoria-list'),
     path('api/categorias/<int:pk>/', views.categoria_detail, name='categoria-detail'),
+    
+    # Consolas de videojuegos
     path('consolas/', views.consolas_videojuegos, name='consolas_videojuegos'),
-    
-    
-    
+    path('juego/detalle/<int:game_id>/', views.detalles_juego, name='detalles_juego'),
 ]
     

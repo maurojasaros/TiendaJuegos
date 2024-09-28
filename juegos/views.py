@@ -348,16 +348,16 @@ def confirmacion_pedido(request, pedido_id):
     return render(request, 'juegos/confirmacion_pedido.html')
 
 
-#API llamados
-
-from rest_framework.decorators import api_view
+# API llamados 
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Juego, Categoria
 from .serializers import JuegoSerializer, CategoriaSerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes
-
+import requests
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # VISTA PARA LISTAR JUEGOS (GET) Y CREAR NUEVO JUEGO (POST)
 @api_view(['GET', 'POST'])
@@ -376,7 +376,6 @@ def juego_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 # VISTA PARA OBTENER, ACTUALIZAR Y ELIMINAR UN JUEGO ESPECÍFICO
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -405,12 +404,6 @@ def juego_detail(request, juego_id):
         # Eliminar un juego específico
         juego.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-
-    
-import requests
-from django.shortcuts import render, get_object_or_404
-from .models import Juego  # Asegúrate de importar el modelo Juego
 
 # Vista que lista los juegos y asigna los api_ids manualmente
 @login_required
@@ -455,13 +448,6 @@ def detalles_juego(request, game_id):
         # Si hubo un error al obtener los detalles del juego
         error_message = f"No se pudo obtener la información del juego (Error {response.status_code})"
         return render(request, 'juegos/detalles_juego.html', {'error': error_message})
-    
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Categoria
-from .serializers import CategoriaSerializer
 
 # Listar todas las categorías o crear una nueva
 @api_view(['GET', 'POST'])
@@ -502,9 +488,6 @@ def categoria_detail(request, pk):
     elif request.method == 'DELETE':
         categoria.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-import requests
-from django.shortcuts import render
 
 def consolas_videojuegos(request):
     api_key = '21721eebaffa4347b72ecf763d91d4ba'  # Reemplaza con tu clave API de RAWG
