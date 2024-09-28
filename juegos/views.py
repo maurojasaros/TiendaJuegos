@@ -97,14 +97,14 @@ def crear_juego(request):
 # Editar un juego existente
 @login_required       
 def editar_juego(request, pk):
-    juego = get_object_or_404(Juego, pk=pk)
+    juego = get_object_or_404(Juego, pk=pk)  # Obtiene el juego correspondiente
     if request.method == 'POST':
-        form = JuegoForm(request.POST, instance=juego)
+        form = JuegoForm(request.POST, instance=juego)  # Asocia el formulario con la instancia del juego
         if form.is_valid():
-            form.save()
-            return redirect('ver_juego', pk=juego.pk)
+            form.save()  # Guarda el juego con los cambios
+            return redirect('ver_juego', pk=juego.pk)  # Redirige a la vista del juego
     else:
-        form = JuegoForm(instance=juego)
+        form = JuegoForm(instance=juego)  # Carga el formulario con los datos existentes
     return render(request, 'juegos/editar_juego.html', {'juego': juego, 'form': form})
 
 # Eliminar un juego
@@ -373,3 +373,49 @@ def juego_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+import requests
+from django.shortcuts import render, get_object_or_404
+from .models import Juego  # Asegúrate de importar el modelo Juego
+
+# Vista que lista los juegos y asigna los api_ids manualmente
+def lista_juegos(request):
+    # Obtener la lista de juegos desde la base de datos
+    juegos = Juego.objects.all()
+
+    # Diccionario que mapea los IDs de la base de datos con los IDs de la API RAWG
+    api_ids = {
+        1: 3790,      # Final Fantasy XII
+        2: 4570,      # Call of Duty
+        3: 823549,    # Otros juegos...
+        4: 463733,
+        5: 450393,
+        6: 19369,
+        7: 301511,
+        8: 46667,
+        9: 22511,
+        10: 24919
+        # Añade otros juegos aquí según lo que tienes en tu base de datos
+    }
+
+    # Asignar el api_id a cada juego desde el diccionario y guardarlo en la base de datos
+    for juego in juegos:
+        juego.api_id = api_ids.get(juego.id, None)  # Devuelve None si el juego no está en el diccionario
+        juego.save()  # Guardar el juego actualizado en la base de datos
+
+    # Renderizar la plantilla, pasando los juegos con su api_id asignado
+    return render(request, 'juegos/terror.html', {'juegos': juegos})
+
+# Vista que obtiene los detalles de un juego desde la API de RAWG
+def detalles_juego(request, game_id):
+    # Usar el game_id para hacer la petición a la API de RAWG
+    url = f"https://api.rawg.io/api/games/{game_id}?key=134b55ec323f4c55b91d0c62690acfd9"  # Reemplaza con tu API key
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        juego = response.json()  # Convertir la respuesta en un diccionario Python
+        return render(request, 'juegos/detalles_juego.html', {'juego': juego})
+    else:
+        # Si hubo un error al obtener los detalles del juego
+        error_message = f"No se pudo obtener la información del juego (Error {response.status_code})"
+        return render(request, 'juegos/detalles_juego.html', {'error': error_message})

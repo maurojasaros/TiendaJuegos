@@ -20,6 +20,7 @@ class Juego(models.Model):
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits=10, decimal_places=2)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, related_name='juegos')
+    api_id = models.IntegerField(null=True, blank=True)  # Nuevo campo api_id
 
     def __str__(self):
         return self.nombre

@@ -35,15 +35,18 @@
                     <p class="d-block text-center mt-2">Precio: ${{ juego.precio }} CLP</p>
                     <!-- Muestra el precio del juego en pesos chilenos, también centrado. -->
 
-                    <!-- Botón para añadir el juego al carrito -->
                     <div class="text-center">
+                        <!-- Botones para añadir el juego al carrito y ver detalles -->
                         <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn btn-success">Añadir al Carrito</a>
                         <!-- Botón que permite añadir el juego al carrito, enlazado a la vista 'agregar_al_carrito' con el 'id' del juego. -->
+
+                        <a href="{% url 'detalles_juego' juego.api_id %}" class="btn btn-info">Ver Detalles</a>
+                        <!-- Botón que redirige a la página de detalles del juego -->
                     </div>
                 </li>
             {% empty %}
                 <!-- Este bloque se muestra si no hay juegos disponibles en la categoría shooter. -->
-                <p class="text-center">No hay juegos disponibles en la categoría de shooter</p>
+                <p class="text-center">No hay juegos disponibles en la categoría shooter</p>
             {% endfor %}
         </ul>
     </section>

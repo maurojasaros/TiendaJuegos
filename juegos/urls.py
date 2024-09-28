@@ -61,5 +61,10 @@ urlpatterns = [
 
     #Api
     path('api/juegos/', views.juego_list, name='juegos_api'),
+    path('juego/detalle/<int:game_id>/', views.detalles_juego, name='detalles_juego'),
+    path('juegos/', views.lista_juegos, name='lista_juegos'),
+    
+    
     
 ]
+    

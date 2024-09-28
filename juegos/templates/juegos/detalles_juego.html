@@ -1,0 +1,27 @@
+{% extends 'juegos/base_generic.html' %} <!-- Extiende de tu plantilla base -->
+
+{% block content %}  <!-- Define el bloque de contenido -->
+    {% if juego %}
+        <h1>{{ juego.name }}</h1>
+        <img src="{{ juego.background_image }}" alt="{{ juego.name }}" class="img-fluid"> <!-- Agregando clase para hacer la imagen responsiva -->
+        <p>Fecha de lanzamiento: {{ juego.released }}</p>
+        <p>Calificación: {{ juego.rating }}</p>
+        <p>Descripción: {{ juego.description|safe }}</p>  <!-- Agregar descripción -->
+        <p>Plataformas:</p>
+        <ul>
+            {% for platform in juego.platforms %}
+                <li>{{ platform.platform.name }}</li>
+            {% empty %}
+                <li>No hay plataformas disponibles.</li>  <!-- Mensaje si no hay plataformas -->
+            {% endfor %}
+        </ul>
+    {% elif error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <p>No se encontró el juego.</p>  <!-- Mensaje adicional si no se encuentra el juego -->
+    {% endif %}
+
+    <div class="mt-4 text-center">  <!-- Botón para volver a la página anterior -->
+        <a href="{% url 'nombre_de_tu_vista_anterior' %}" class="btn btn-primary">Volver</a> <!-- Reemplaza 'nombre_de_tu_vista_anterior' por la URL correspondiente -->
+    </div>
+{% endblock %}

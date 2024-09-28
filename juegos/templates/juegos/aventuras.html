@@ -2,7 +2,7 @@
 <!-- Extiende el template base 'base_generic.html', reutilizando el diseño general y la estructura del sitio. -->
 
 {% load static %}
-<!-- Carga las etiquetas de archivos estáticos para poder utilizar la etiqueta  y enlazar archivos como imágenes. -->
+<!-- Carga las etiquetas de archivos estáticos para poder utilizar la etiqueta y enlazar archivos como imágenes. -->
 
 {% block title %}Aventuras{% endblock %}
 <!-- Define el título de la página dentro del bloque 'title'. En este caso, el título será 'Aventuras'. -->
@@ -35,13 +35,18 @@
                     <p class="d-block text-center mt-2">Precio: ${{ juego.precio }} CLP</p>
                     <!-- Muestra el precio del juego en pesos chilenos, también centrado. -->
 
-                    <!-- Botón para añadir el juego al carrito -->
+                    <!-- Botones para añadir el juego al carrito y ver detalles -->
                     <div class="text-center">
                         <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn btn-success">Añadir al Carrito</a>
                         <!-- Botón que permite al usuario agregar el juego al carrito, enlazando a la vista 'agregar_al_carrito' 
                              y pasando el 'id' del juego como parámetro. -->
+                        <a href="{% url 'detalles_juego' juego.api_id %}" class="btn btn-info">Ver Detalles</a>
+                        <!-- Botón que redirige a la página de detalles del juego. -->
                     </div>
                 </li>
+            {% empty %}
+                <!-- Este bloque se ejecuta si no hay juegos disponibles en la categoría de aventuras. -->
+                <p class="text-center">No hay juegos disponibles en la categoría de aventuras</p>
             {% endfor %}
         </ul>
     </section>

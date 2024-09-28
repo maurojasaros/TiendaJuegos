@@ -83,7 +83,7 @@ class JuegoForm(forms.ModelForm):
     # Formulario para crear y editar objetos Juego
     class Meta:
         model = Juego
-        fields = ['nombre', 'descripcion', 'precio', 'categoria']
+        fields = ['nombre', 'descripcion', 'precio', 'categoria','api_id']
 
 class CategoriaForm(forms.ModelForm):
     # Formulario para crear y editar objetos Categoria

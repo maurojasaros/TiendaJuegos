@@ -35,11 +35,13 @@
                     <p class="d-block text-center mt-2">Precio: ${{ juego.precio }} CLP</p>
                     <!-- Muestra el precio del juego en pesos chilenos, también centrado. -->
 
-                    <!-- Botón para añadir el juego al carrito -->
+                    <!-- Botones para añadir el juego al carrito y ver detalles -->
                     <div class="text-center">
                         <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn btn-success">Añadir al Carrito</a>
                         <!-- Botón que permite al usuario añadir el juego al carrito. Se enlaza a la vista 'agregar_al_carrito' 
                              con el 'id' del juego como parámetro. -->
+                        <a href="{% url 'detalles_juego' juego.api_id %}" class="btn btn-info">Ver Detalles</a>
+                        <!-- Botón que redirige a la página de detalles del juego. -->
                     </div>
                 </li>
             {% empty %}
