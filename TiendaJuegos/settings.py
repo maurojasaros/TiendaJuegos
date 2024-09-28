@@ -55,6 +55,17 @@ REST_FRAMEWORK = {
     ]
 }
 
+# Configuración opcional de SimpleJWT para ajustar la duración del token
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # Duración del token de acceso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # Duración del token de refresco
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
