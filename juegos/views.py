@@ -346,3 +346,27 @@ def realizar_pedido(request):
 
 def confirmacion_pedido(request, pedido_id):
     return render(request, 'juegos/confirmacion_pedido.html')
+
+
+#API llamados
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Juego, Categoria
+from .serializers import JuegoSerializer, CategoriaSerializer
+
+
+@api_view(['GET', 'POST'])
+def juego_list(request):
+    if request.method == 'GET':
+        juegos = Juego.objects.all()
+        serializer = JuegoSerializer(juegos, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = JuegoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

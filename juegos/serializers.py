@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Juego
+from .models import Juego, Categoria
 
 
 class CategoriaSerializer(serializers.ModelSerializer):
