@@ -406,6 +406,8 @@ def juego_detail(request, juego_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Vista que lista los juegos y asigna los api_ids manualmente
+#OBS: tuve que agregarle a cada juego su api_id ya que de otra manera no me podia redireccionar al servicio web externo y a la vez usar mi propio estilo de pagina
+#Es importante recalcar que si se crea un nuevo juego, se debe definir su api_ids, de modo que redireccione al servicio web externo
 @login_required
 @user_passes_test(is_admin)
 def lista_juegos(request):
@@ -414,16 +416,16 @@ def lista_juegos(request):
 
     # Diccionario que mapea los IDs de la base de datos con los IDs de la API RAWG
     api_ids = {
-        1: 3790,      # Final Fantasy XII
-        2: 4570,      # Call of Duty
-        3: 823549,    # Otros juegos...
-        4: 463733,
-        5: 450393,
-        6: 19369,
-        7: 301511,
-        8: 46667,
-        9: 22511,
-        10: 24919
+        1: 3790,      # Outlast
+        2: 4570,      # Dead Space
+        3: 823549,    # Fifa 23
+        4: 463733,     #UFC
+        5: 450393,      #Halo
+        6: 19369,       #Call of duty
+        7: 301511,      #Final Fantasy xii
+        8: 46667,       #Octopath traveler
+        9: 22511,       #The legend of Zelda
+        10: 24919       #Mario bros
         # Añade otros juegos aquí según lo que tienes en tu base de datos
     }
 
@@ -435,19 +437,6 @@ def lista_juegos(request):
     # Renderizar la plantilla, pasando los juegos con su api_id asignado
     return render(request, 'juegos/terror.html', {'juegos': juegos})
 
-# Vista que obtiene los detalles de un juego desde la API de RAWG
-def detalles_juego(request, game_id):
-    # Usar el game_id para hacer la petición a la API de RAWG
-    url = f"https://api.rawg.io/api/games/{game_id}?key=21721eebaffa4347b72ecf763d91d4ba"  # Reemplaza con tu API key
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        juego = response.json()  # Convertir la respuesta en un diccionario Python
-        return render(request, 'juegos/detalles_juego.html', {'juego': juego})
-    else:
-        # Si hubo un error al obtener los detalles del juego
-        error_message = f"No se pudo obtener la información del juego (Error {response.status_code})"
-        return render(request, 'juegos/detalles_juego.html', {'error': error_message})
 
 # Listar todas las categorías o crear una nueva
 @api_view(['GET', 'POST'])
@@ -489,8 +478,32 @@ def categoria_detail(request, pk):
         categoria.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+#IMPORTANTE, PARA QUE SE PUEDAN VER LAS SIGUIENTES VISTAS ES IMPORTANTE HABERSE REGISTRADO EN RAWG Y OBTENER UNA API KEY
+#DICHA API KEY SE REEMPLAZA EN LOS LUGARES CORRESPONDIENTES
+#EN detalles_juego LA APY KEY IRIA EN {api_key} https://api.rawg.io/api/platforms?key={api_key}, en mi caso es API KEY=21721eebaffa4347b72ecf763d91d4ba quedando como:
+# quedando como: url = f"https://api.rawg.io/api/games/{game_id}?key=21721eebaffa4347b72ecf763d91d4ba"
+
+
+# Vista que obtiene los detalles de un juego desde la API de RAWG
+def detalles_juego(request, game_id):
+    # Usar el game_id para hacer la petición a la API de RAWG
+    url = f"https://api.rawg.io/api/games/{game_id}?key=21721eebaffa4347b72ecf763d91d4ba"  # Reemplaza con tu API key
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        juego = response.json()  # Convertir la respuesta en un diccionario Python
+        return render(request, 'juegos/detalles_juego.html', {'juego': juego})
+    else:
+        # Si hubo un error al obtener los detalles del juego
+        error_message = f"No se pudo obtener la información del juego (Error {response.status_code})"
+        return render(request, 'juegos/detalles_juego.html', {'error': error_message})
+
+#EN consolas_videojuegos SE COLOCA DIRECTAMENTE LA API KEY en api_key
+
 def consolas_videojuegos(request):
-    api_key = '21721eebaffa4347b72ecf763d91d4ba'  # Reemplaza con tu clave API de RAWG
+    api_key = '21721eebaffa4347b72ecf763d91d4ba'  # Reemplaza con tu clave API de RAWG  
     url = f'https://api.rawg.io/api/platforms?key={api_key}'
 
     response = requests.get(url)
