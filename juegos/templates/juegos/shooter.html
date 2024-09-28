@@ -1,0 +1,56 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html', que contiene la estructura principal y el diseño del sitio web. -->
+
+{% load static %}
+<!-- Carga la etiqueta de archivos estáticos, que se utilizará para acceder a imágenes y otros recursos. -->
+
+{% block title %}Shooter{% endblock %}
+<!-- Define el título de la página como "Shooter", que aparecerá en la pestaña del navegador. -->
+
+{% block content %}
+<main class="container">
+    <!-- Contenedor principal de Bootstrap que asegura un diseño centrado y con márgenes adecuados. -->
+
+    <section>
+        <h2 class="text-center my-8">Juegos shooter</h2>
+        <!-- Encabezado de la sección, centrado y con márgenes amplios arriba y abajo. -->
+
+        <ul class="row list-unstyled">
+            <!-- Lista de juegos en formato de rejilla con 'row' y 'col', para que sea responsiva. 
+                 La clase 'list-unstyled' elimina el estilo de lista predeterminado. -->
+
+            {% for juego in juegos %}
+                <!-- Itera sobre el queryset 'juegos', que contiene los juegos disponibles en la categoría de shooter. -->
+
+                <li class="col-sm-6 col-md-4 mb-4">
+                    <!-- Cada juego ocupa 6 columnas en pantallas pequeñas y 4 columnas en pantallas medianas y más grandes. -->
+
+                    <img src="{% static 'img/'|add:juego.nombre|add:'.jpg' %}" alt="{{ juego.nombre }}" class="img-fluid">
+                    <!-- Muestra la imagen del juego, utilizando el nombre del juego para generar la ruta de la imagen ('img/<nombre>.jpg'). 
+                         La clase 'img-fluid' asegura que la imagen se ajuste correctamente a su contenedor. -->
+
+                    <p class="d-block text-center mt-2">{{ juego.nombre }}</p>
+                    <!-- Muestra el nombre del juego centrado, con un margen superior pequeño. -->
+
+                    <p class="d-block text-center mt-2">Precio: ${{ juego.precio }} CLP</p>
+                    <!-- Muestra el precio del juego en pesos chilenos, también centrado. -->
+
+                    <!-- Botón para añadir el juego al carrito -->
+                    <div class="text-center">
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn btn-success">Añadir al Carrito</a>
+                        <!-- Botón que permite añadir el juego al carrito, enlazado a la vista 'agregar_al_carrito' con el 'id' del juego. -->
+                    </div>
+                </li>
+            {% empty %}
+                <!-- Este bloque se muestra si no hay juegos disponibles en la categoría shooter. -->
+                <p class="text-center">No hay juegos disponibles en la categoría de shooter</p>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <div class="mt-4 text-center">
+        <!-- Botón para volver a la página principal, centrado y con un margen superior para separar del contenido. -->
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener una estructura y diseño consistentes. -->
+
+{% block title %}Editar Usuario{% endblock %}
+<!-- Define el título de la página como "Editar Usuario". -->
+
+{% block content %}
+<div class="container">
+    <!-- Contenedor principal para el contenido de la página. -->
+    <h2>Editar Usuario</h2>
+    <!-- Título principal que indica que se está editando un usuario. -->
+
+    <form method="post">
+        <!-- Formulario para editar los detalles del usuario, usando el método POST para enviar datos. -->
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+        
+        {{ form.as_p }}
+        <!-- Renderiza el formulario utilizando el formato de párrafos (<p>) de Django Forms. -->
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <!-- Botón para enviar el formulario y guardar los cambios en la información del usuario. -->
+    </form>
+
+    <a href="{% url 'perfil_usuario' %}" class="btn btn-secondary mt-3">Volver</a>
+    <!-- Enlace para regresar a la página del perfil del usuario. -->
+</div>
+{% endblock %}

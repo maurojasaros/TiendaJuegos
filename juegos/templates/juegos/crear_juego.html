@@ -1,0 +1,27 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para usar la estructura común del sitio. -->
+
+{% block title %}Crear Nuevo Juego{% endblock %}
+<!-- Define el título de la página como "Crear Nuevo Juego". -->
+
+{% block content %}
+<div class="container my-4">
+    <!-- Contenedor principal para el contenido de la página con margen adicional. -->
+    <h1>Crear Nuevo Juego</h1>
+    <!-- Título principal de la página. -->
+
+    <form method="POST">
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+
+        {{ form.as_p }}
+        <!-- Renderiza el formulario con los campos en formato de párrafos (<p>). -->
+
+        <button type="submit" class="btn btn-primary">Crear Juego</button>
+        <!-- Botón para enviar el formulario y crear el nuevo juego. -->
+    </form>
+
+    <a href="{% url 'listar_juegos' %}" class="btn btn-secondary mt-3">Volver a la lista de juegos</a>
+    <!-- Enlace para volver a la lista de juegos, visible debajo del formulario con un botón secundario. -->
+</div>
+{% endblock %}

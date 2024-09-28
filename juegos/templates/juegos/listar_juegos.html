@@ -1,0 +1,64 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html'. -->
+
+{% block title %}Lista de Juegos{% endblock %}
+<!-- Define el título de la página como "Lista de Juegos". -->
+
+{% block content %}
+    <h1>Lista de Juegos</h1>
+    <!-- Título de la página. -->
+
+    <table class="table table-striped">
+        <!-- Tabla estilizada usando la clase 'table-striped' de Bootstrap para agregar líneas alternas de fondo. -->
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+                <!-- Encabezado de la tabla, con columnas para los atributos del juego y las acciones disponibles. -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for juego in juegos %}
+            <!-- Itera sobre la lista de juegos y muestra cada uno en una fila de la tabla. -->
+
+            <tr>
+                <td>{{ juego.nombre }}</td>
+                <!-- Muestra el nombre del juego. -->
+
+                <td>{{ juego.descripcion }}</td>
+                <!-- Muestra la descripción del juego. -->
+
+                <td>{{ juego.precio }}</td>
+                <!-- Muestra el precio del juego. -->
+
+                <td>{{ juego.categoria.nombre }}</td>
+                <!-- Muestra el nombre de la categoría a la que pertenece el juego. -->
+
+                <td>
+                    <a href="{% url 'ver_juego' juego.pk %}">Ver</a>
+                    <!-- Enlace para ver los detalles del juego. -->
+
+                    {% if user.is_staff %}
+                    <!-- Verifica si el usuario es administrador o miembro del staff. Si lo es, muestra las opciones de editar y eliminar. -->
+                    | <a href="{% url 'editar_juego' juego.pk %}">Editar</a>
+                    | <a href="{% url 'eliminar_juego' juego.pk %}">Eliminar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if user.is_staff %}
+    <!-- Si el usuario es miembro del staff, muestra el botón para agregar un nuevo juego. -->
+    <a href="{% url 'crear_juego' %}" class="btn btn-success">Agregar nuevo juego</a>
+    
+    <div class="mt-4 text-center">
+        <!-- Botón para volver a la página principal centrado y con un margen superior. -->
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+    </div>
+    {% endif %}
+{% endblock %}

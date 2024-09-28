@@ -1,0 +1,24 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para usar la estructura y el diseño comunes del sitio. -->
+
+{% block title %}Crear Usuario{% endblock %}
+<!-- Define el título de la página como "Crear Usuario". -->
+
+{% block content %}
+<div class="container">
+    <!-- Contenedor principal para el contenido de la página. -->
+    <h2>Crear Usuario</h2>
+    <!-- Título principal de la página. -->
+
+    <form method="post">
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+
+        {{ form.as_p }}
+        <!-- Renderiza el formulario usando el formato de párrafos (<p>) de Django Forms. -->
+
+        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+        <!-- Botón para enviar el formulario y crear un nuevo usuario. -->
+    </form>
+</div>
+{% endblock %}

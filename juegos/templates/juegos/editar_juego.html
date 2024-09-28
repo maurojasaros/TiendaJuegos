@@ -1,0 +1,28 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la estructura y el diseño consistentes del sitio. -->
+
+{% block title %}Editar Juego{% endblock %}
+<!-- Define el título de la página como "Editar Juego". -->
+
+{% block content %}
+    <div class="container my-4">
+        <!-- Contenedor principal con un margen superior e inferior. -->
+        <h1>Editar Juego: {{ juego.nombre }}</h1>
+        <!-- Título principal que indica que se está editando el juego con el nombre proporcionado. -->
+
+        <form method="POST">
+            <!-- Formulario para editar el juego, usando el método POST para enviar datos. -->
+            {% csrf_token %}
+            <!-- Token de seguridad para prevenir ataques CSRF. -->
+            
+            {{ form.as_p }}
+            <!-- Renderiza el formulario usando el formato de párrafos (<p>) de Django Forms. -->
+
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <!-- Botón para enviar el formulario y guardar los cambios realizados en el juego. -->
+        </form>
+
+        <a href="{% url 'listar_juegos' %}" class="btn btn-secondary mt-3">Volver</a>
+        <!-- Enlace para regresar a la lista de juegos, con un botón de estilo secundario y un margen superior. -->
+    </div>
+{% endblock %}

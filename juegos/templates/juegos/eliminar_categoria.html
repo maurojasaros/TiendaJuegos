@@ -1,0 +1,28 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la coherencia en diseño y estructura. -->
+
+{% block title %}Eliminar Categoría{% endblock %}
+<!-- Define el título de la página como "Eliminar Categoría". -->
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Contenedor principal con un margen superior de 5 para el contenido de la página. -->
+    <h2>Eliminar Categoría</h2>
+    <!-- Título principal que indica que se está en la página de eliminación de una categoría. -->
+    
+    <p>¿Estás seguro de que deseas eliminar la categoría "{{ categoria.nombre }}"?</p>
+    <!-- Mensaje de confirmación mostrando el nombre de la categoría a eliminar. -->
+    
+    <form method="post">
+        <!-- Formulario para confirmar la eliminación, usando el método POST para enviar los datos. -->
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+        
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <!-- Botón para confirmar y enviar el formulario para eliminar la categoría. -->
+        
+        <a href="{% url 'listar_categorias' %}" class="btn btn-secondary">Cancelar</a>
+        <!-- Enlace para cancelar la eliminación y regresar a la lista de categorías. -->
+    </form>
+</div>
+{% endblock %}

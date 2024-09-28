@@ -1,0 +1,37 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la consistencia del diseño. -->
+
+{% block title %}Detalles del Juego{% endblock %}
+<!-- Define el título de la página como "Detalles del Juego". -->
+
+{% block content %}
+    <div class="container my-4">
+        <!-- Contenedor principal con margen vertical para separar el contenido -->
+        <h1>{{ juego.nombre }}</h1>
+        <!-- Muestra el nombre del juego como un encabezado principal -->
+
+        <p><strong>Descripción:</strong> {{ juego.descripcion }}</p>
+        <!-- Muestra la descripción del juego con una etiqueta de negrita -->
+
+        <p><strong>Precio:</strong> ${{ juego.precio }}</p>
+        <!-- Muestra el precio del juego con una etiqueta de negrita y el símbolo de dólar -->
+
+        <p><strong>Categoría:</strong> {{ juego.categoria.nombre }}</p>
+        <!-- Muestra la categoría del juego, incluyendo el nombre de la categoría -->
+
+        {% if user.is_staff %}
+        <!-- Verifica si el usuario es un miembro del personal (staff) -->
+        <div class="my-3">
+            <!-- Contenedor con margen vertical para los botones de edición y eliminación -->
+            <a href="{% url 'editar_juego' juego.pk %}" class="btn btn-warning">Editar</a>
+            <!-- Enlace para editar el juego. Visible solo para usuarios del personal. -->
+
+            <a href="{% url 'eliminar_juego' juego.pk %}" class="btn btn-danger">Eliminar</a>
+            <!-- Enlace para eliminar el juego. Visible solo para usuarios del personal. -->
+        </div>
+        {% endif %}
+
+        <a href="{% url 'listar_juegos' %}" class="btn btn-secondary">Volver a la lista</a>
+        <!-- Enlace para regresar a la lista de juegos. -->
+    </div>
+{% endblock %}

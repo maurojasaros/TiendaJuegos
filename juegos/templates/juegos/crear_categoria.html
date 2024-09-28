@@ -1,0 +1,30 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para usar la estructura y el diseño comunes del sitio. -->
+
+{% block title %}Crear Categoría{% endblock %}
+<!-- Define el título de la página como "Crear Categoría". -->
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Contenedor principal con un margen superior. -->
+    <h2>Crear Nueva Categoría</h2>
+    <!-- Título principal de la página. -->
+
+    <form method="post">
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+
+        {{ form.as_p }}
+        <!-- Renderiza el formulario usando el formato de párrafos (<p>) de Django Forms. -->
+
+        <button type="submit" class="btn btn-primary">Crear Categoría</button>
+        <!-- Botón para enviar el formulario y crear una nueva categoría. -->
+    </form>
+</div>
+
+<div class="mt-4 text-center">
+    <!-- Contenedor para el enlace de vuelta con un margen superior. -->
+    <a href="{% url 'listar_categorias' %}" class="btn btn-primary">Volver</a>
+    <!-- Enlace para regresar a la lista de categorías. -->
+</div>
+{% endblock %}

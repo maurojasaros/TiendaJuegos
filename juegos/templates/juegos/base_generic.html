@@ -1,0 +1,106 @@
+{% load static %} 
+
+
+<!DOCTYPE html>
+<html lang="es"> 
+<!-- Define el tipo de documento como HTML5 y establece el idioma del contenido como español. -->
+
+<head>
+    <meta charset="UTF-8"> 
+    <!-- Especifica la codificación de caracteres como UTF-8, que soporta la mayoría de caracteres usados globalmente. -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <!-- Hace que el sitio web sea responsivo ajustando el ancho de la página al ancho del dispositivo del usuario. -->
+    
+    <title>{% block title %}World Games{% endblock %}</title>
+    <!-- Define el título de la página web. El bloque  permite que cada página que extienda este template pueda cambiar el título. -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace al CSS de Bootstrap para usar su sistema de diseño y componentes predefinidos. -->
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Enlace a un archivo CSS personalizado localizado en la carpeta de archivos estáticos del proyecto. -->
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
+            <!-- Enlace a la página de inicio usando la URL definida en las vistas de Django. -->
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Botón que permite expandir o colapsar el menú de navegación en dispositivos móviles. -->
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% if not request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'formulario' %}">Registrarse</a>
+                        </li>
+                    {% endif %}
+                    <!-- Si el usuario no ha iniciado sesión, se muestra la opción para registrarse. -->
+
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'perfil_usuario' %}">Mi Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'ver_carrito' %}">Carrito</a>
+                        </li>
+                        <!-- Si el usuario ha iniciado sesión, se muestran enlaces a su perfil y al carrito de compras. -->
+
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link">Cerrar Sesión</button>
+                            </form>
+                        </li>
+                        <!-- Formulario para cerrar sesión, con un botón que envía la solicitud de logout. El token CSRF se incluye por razones de seguridad. -->
+
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item">
+                                <span class="nav-link">Eres un superusuario.</span>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <span class="nav-link">Eres un usuario normal.</span>
+                            </li>
+                        {% endif %}
+                        <!-- Dependiendo de si el usuario es superusuario o no, se muestra un mensaje indicando su estatus. -->
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a>
+                        </li>
+                    {% endif %}
+                    <!-- Si el usuario no está autenticado, se muestra un enlace para iniciar sesión. -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Barra de navegación que cambia según el estado de autenticación del usuario. -->
+
+    <main class="container">
+        <header class="text-center my-4">
+            <h1>World Games</h1>
+            <img src="{% static 'img/portada.jpg' %}" alt="Logo de la pagina" class="img-fluid">
+            <p>En esta página encontrarás juegos disponibles a muy buen precio.</p>
+        </header>
+        <!-- Cabecera de la página con el título principal, una imagen de portada y una descripción breve. -->
+
+        {% block content %}
+        <!-- Aquí va el contenido específico de cada página que herede este template. -->
+        {% endblock %}
+    </main>
+    <!-- Área principal de la página donde se insertará el contenido variable según cada vista. -->
+
+    <footer class="text-center my-4">
+        <p>&copy; 2024 World Games. Todos los derechos reservados.</p>
+    </footer>
+    <!-- Pie de página simple con derechos de autor. -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script de Bootstrap para habilitar interactividad y funcionalidades como el colapso de la barra de navegación. -->
+</body>
+</html>

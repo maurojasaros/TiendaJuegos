@@ -1,0 +1,28 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la coherencia en diseño y estructura. -->
+
+{% block title %}Eliminar Usuario{% endblock %}
+<!-- Define el título de la página como "Eliminar Usuario". -->
+
+{% block content %}
+<div class="container">
+    <!-- Contenedor principal para el contenido de la página. -->
+    <h2>Eliminar Usuario</h2>
+    <!-- Título principal que indica que se está en la página de eliminación de un usuario. -->
+
+    <p>¿Estás seguro de que deseas eliminar al usuario "{{ usuario.username }}"?</p>
+    <!-- Mensaje de confirmación mostrando el nombre de usuario que se va a eliminar. -->
+
+    <form method="post">
+        <!-- Formulario para confirmar la eliminación, usando el método POST para enviar los datos. -->
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+        
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <!-- Botón para confirmar y enviar el formulario para eliminar al usuario. -->
+        
+        <a href="{% url 'perfil_usuario' %}" class="btn btn-secondary">Cancelar</a>
+        <!-- Enlace para cancelar la eliminación y regresar al perfil del usuario, sin realizar cambios. -->
+    </form>
+</div>
+{% endblock %}

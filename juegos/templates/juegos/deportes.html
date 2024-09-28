@@ -1,0 +1,57 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para reutilizar la estructura y el diseño general del sitio web. -->
+
+{% load static %}
+<!-- Carga las etiquetas de archivos estáticos para poder usar la etiqueta en el template, necesaria para enlazar archivos como imágenes. -->
+
+{% block title %}Deportes{% endblock %}
+<!-- Define el título de la página, que en este caso es 'Deportes'. -->
+
+{% block content %}
+<main class="container">
+    <!-- Contenido principal de la página dentro de un contenedor de Bootstrap, que ayuda a centrar y espaciar el contenido. -->
+    
+    <section>
+        <h2 class="text-center my-8">Juegos de deportes</h2>
+        <!-- Título de la sección, centrado y con márgenes superior e inferior amplios. -->
+
+        <ul class="row list-unstyled">
+            <!-- Lista de juegos de deportes, estructurada en una rejilla de Bootstrap (con 'row' y 'col') para un diseño responsivo. 
+                 'list-unstyled' elimina el estilo predeterminado de las listas. -->
+
+            {% for juego in juegos %}
+                <!-- Itera sobre el queryset 'juegos', que contiene los juegos disponibles en la categoría de deportes. -->
+
+                <li class="col-sm-6 col-md-4 mb-4">
+                    <!-- Cada elemento de la lista ocupa 6 columnas en pantallas pequeñas y 4 en pantallas medianas o más grandes. -->
+
+                    <img src="{% static 'img/'|add:juego.nombre|add:'.jpg' %}" alt="{{ juego.nombre }}" class="img-fluid">
+                    <!-- Muestra la imagen del juego, usando el nombre del juego para construir la ruta de la imagen ('img/<nombre>.jpg'). 
+                         La clase 'img-fluid' asegura que la imagen se ajuste de manera responsiva. -->
+
+                    <p class="d-block text-center mt-2">{{ juego.nombre }}</p>
+                    <!-- Muestra el nombre del juego, centrado y con un pequeño margen superior. -->
+
+                    <p class="d-block text-center mt-2">Precio: ${{ juego.precio }} CLP</p>
+                    <!-- Muestra el precio del juego en pesos chilenos, también centrado. -->
+
+                    <!-- Botón para añadir el juego al carrito -->
+                    <div class="text-center">
+                        <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn btn-success">Añadir al Carrito</a>
+                        <!-- Botón que permite al usuario añadir el juego al carrito, enlazando a la vista 'agregar_al_carrito' 
+                             y pasando el 'id' del juego como parámetro. -->
+                    </div>
+                </li>
+            {% empty %}
+                <!-- Este bloque se ejecuta si no hay juegos disponibles en la categoría de deportes. -->
+                <p class="text-center">No hay juegos disponibles en la categoría de deportes</p>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <div class="mt-4 text-center">
+        <!-- Botón para volver a la página principal, centrado y con un margen superior para separarlo del contenido principal. -->
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+    </div>
+</main>
+{% endblock %}

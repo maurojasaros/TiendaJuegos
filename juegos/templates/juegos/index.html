@@ -1,0 +1,91 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html', lo que permite reutilizar el diseño general y estructura del sitio. -->
+
+{% load static %}
+
+
+{% block title %}World Games{% endblock %}
+<!-- Define el bloque 'title' que será utilizado para el título de la página. En este caso, el título será 'World Games'. -->
+
+{% block content %}
+<main class="container">
+    <h1 class="text-center">Bienvenido a nuestra página con muchos juegos disponibles</h1>
+    <!-- Encabezado principal de la página, dándole la bienvenida al usuario. -->
+
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser %}
+            <!-- Si el usuario ha iniciado sesión y es superusuario, muestra un mensaje personalizado y botones de administración. -->
+
+            <div class="text-center my-4">
+                <p>Eres un superusuario. Tienes acceso a funcionalidades avanzadas.</p>
+            </div>
+
+            <div class="text-center my-4">
+                <a href="{% url 'listar_categorias' %}" class="btn btn-secondary">Listar Categorías</a>
+            </div>
+            <!-- Botón que enlaza a la vista para listar las categorías, disponible solo para superusuarios. -->
+
+            <div class="text-center my-4">
+                <a href="{% url 'listar_juegos' %}" class="btn btn-primary">Listar Juegos</a>
+            </div>
+            <!-- Botón que enlaza a la vista para listar los juegos, disponible solo para superusuarios. -->
+        {% endif %}
+    {% endif %}
+
+    {% if not request.user.is_superuser %}
+        <!-- Si el usuario no es superusuario (es un usuario normal), muestra este mensaje. -->
+
+        <div class="text-center my-4">
+            <p>Eres un usuario normal. Disfruta de la aplicación.</p>
+        </div>
+    {% endif %}
+
+    <section>
+        <h2 class="text-center my-4">Categorías</h2>
+        <!-- Sección que muestra las categorías de los juegos disponibles. -->
+
+        <ul class="row list-unstyled">
+            <!-- Lista de categorías. Cada categoría es una imagen con un enlace debajo. -->
+
+            <li class="col-sm-6 col-md-4 mb-4">
+                <img src="{% static 'img/Terror.jpg' %}" alt="Logo juegos terror" class="img-fluid">
+                <a href="{% url 'categoria_terror' %}" class="d-block text-center mt-2">Terror</a>
+            </li>
+            <!-- Categoría 'Terror' con su imagen y enlace a la página correspondiente. -->
+
+            <li class="col-sm-6 col-md-4 mb-4">
+                <img src="{% static 'img/Deportes.jpg' %}" alt="Logo juegos deportes" class="img-fluid">
+                <a href="{% url 'categoria_deportes' %}" class="d-block text-center mt-2">Deportes</a>
+            </li>
+            <!-- Categoría 'Deportes' con su imagen y enlace a la página correspondiente. -->
+
+            <li class="col-sm-6 col-md-4 mb-4">
+                <img src="{% static 'img/Shooter.jpg' %}" alt="Logo juegos shooter" class="img-fluid">
+                <a href="{% url 'categoria_shooter' %}" class="d-block text-center mt-2">Shooter</a>
+            </li>
+            <!-- Categoría 'Shooter' con su imagen y enlace a la página correspondiente. -->
+
+            <li class="col-sm-6 col-md-4 mb-4">
+                <img src="{% static 'img/RPG.jpg' %}" alt="Logo juegos RPG" class="img-fluid">
+                <a href="{% url 'categoria_rpg' %}" class="d-block text-center mt-2">RPG</a>
+            </li>
+            <!-- Categoría 'RPG' con su imagen y enlace a la página correspondiente. -->
+
+            <li class="col-sm-6 col-md-4 mb-4">
+                <img src="{% static 'img/Aventuras.jpg' %}" alt="Logo juegos aventuras" class="img-fluid">
+                <a href="{% url 'categoria_aventuras' %}" class="d-block text-center mt-2">Aventuras</a>
+            </li>
+            <!-- Categoría 'Aventuras' con su imagen y enlace a la página correspondiente. -->
+        </ul>
+    </section>
+    <!-- Sección que lista las diferentes categorías de juegos, cada una con su imagen y enlace. -->
+</main>
+{% endblock %}
+<!-- Cierra el bloque de contenido principal de la página. -->
+
+{% block footer %}
+<footer class="text-center my-4">
+    <p>&copy; 2024 World Games. Todos los derechos reservados.</p>
+</footer>
+<!-- Pie de página que se muestra al final del sitio, con derechos de autor. -->
+{% endblock %}

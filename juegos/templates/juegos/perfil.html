@@ -1,0 +1,61 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la consistencia del diseño. -->
+
+{% block title %}Perfil de Usuario{% endblock %}
+<!-- Define el título de la página como "Perfil de Usuario". -->
+
+{% block content %}
+<div class="container">
+    <!-- Contenedor principal con clase 'container' para centrar el contenido. -->
+    <h2>Información del Usuario</h2>
+    <!-- Título principal de la sección de información del usuario. -->
+
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <!-- Muestra el nombre de usuario. -->
+
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <!-- Muestra el correo electrónico del usuario. -->
+
+    <div class="mb-3">
+        <!-- Contenedor para el botón de edición del perfil. -->
+        <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+        <!-- Enlace para acceder al formulario de edición del perfil del usuario. -->
+    </div>
+
+    {% if user.is_superuser %}
+        <!-- Verifica si el usuario es un superusuario. -->
+        <h3>Eres superusuario. Aquí está la lista de todos los usuarios:</h3>
+        <!-- Mensaje que indica que el usuario es superusuario y que puede ver la lista de todos los usuarios. -->
+
+        <!-- Enlace para crear un nuevo usuario -->
+        <div class="mb-3">
+            <a href="{% url 'crear_usuario' %}" class="btn btn-primary">Crear Nuevo Usuario</a>
+            <!-- Enlace para acceder al formulario de creación de un nuevo usuario. -->
+        </div>
+
+        <!-- Lista de usuarios -->
+        <ul>
+            <!-- Itera sobre la lista de usuarios para mostrarlos -->
+            {% for usuario in usuarios %}
+                <li>
+                    {{ usuario.username }}
+                    <!-- Muestra el nombre de usuario en la lista. -->
+                    <!-- Enlaces para editar y eliminar usuarios -->
+                    <a href="{% url 'editar_usuario' usuario.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <!-- Enlace para acceder al formulario de edición del usuario. -->
+                    <a href="{% url 'eliminar_usuario' usuario.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    <!-- Enlace para acceder al formulario de eliminación del usuario. -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Eres un usuario normal.</p>
+        <!-- Mensaje para usuarios que no son superusuarios. -->
+    {% endif %}
+</div>
+<div class="mt-4 text-center">
+    <!-- Contenedor para el botón de retorno -->
+    <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+    <!-- Enlace para regresar a la página de inicio. -->
+</div>
+{% endblock %}

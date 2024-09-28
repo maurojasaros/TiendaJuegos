@@ -1,0 +1,28 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la coherencia en diseño y estructura. -->
+
+{% block title %}Eliminar Juego{% endblock %}
+<!-- Define el título de la página como "Eliminar Juego". -->
+
+{% block content %}
+<div class="container my-4">
+    <!-- Contenedor principal con un margen superior de 4 para el contenido de la página. -->
+    <h1>Eliminar Juego</h1>
+    <!-- Título principal que indica que se está en la página de eliminación de un juego. -->
+
+    <p>¿Estás seguro que deseas eliminar el juego "{{ juego.nombre }}"?</p>
+    <!-- Mensaje de confirmación mostrando el nombre del juego a eliminar. -->
+
+    <form method="POST">
+        <!-- Formulario para confirmar la eliminación, usando el método POST para enviar los datos. -->
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+        
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <!-- Botón para confirmar y enviar el formulario para eliminar el juego. -->
+    </form>
+
+    <a href="{% url 'listar_juegos' %}" class="btn btn-secondary mt-3">Volver a la lista</a>
+    <!-- Enlace para cancelar la eliminación y regresar a la lista de juegos, con un margen superior de 3. -->
+</div>
+{% endblock %}

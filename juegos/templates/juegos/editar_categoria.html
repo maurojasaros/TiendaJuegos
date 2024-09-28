@@ -1,0 +1,24 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html'. -->
+
+{% block title %}Editar Categoría{% endblock %}
+<!-- Define el título de la página como "Editar Categoría". -->
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Contenedor principal con margen superior. -->
+    <h2>Editar Categoría: {{ categoria.nombre }}</h2>
+    <!-- Muestra el título junto con el nombre de la categoría que se está editando. -->
+
+    <form method="post">
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+        
+        {{ form.as_p }}
+        <!-- Renderiza el formulario utilizando el formato de párrafos (<p>) de Django Forms. -->
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <!-- Botón para enviar el formulario y guardar los cambios. -->
+    </form>
+</div>
+{% endblock %}

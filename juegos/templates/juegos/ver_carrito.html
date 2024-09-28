@@ -1,0 +1,46 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la consistencia del diseño. -->
+
+{% block title %}Ver Carrito{% endblock %}
+<!-- Define el título de la página como "Ver Carrito". -->
+
+{% block content %}
+    <!-- Mostrar mensajes de éxito o error -->
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <!-- Sección para mostrar mensajes, como errores o confirmaciones. -->
+
+    <h1>Tu Carrito</h1>
+    <!-- Título principal de la sección del carrito. -->
+
+    <ul class="list-group">
+        <!-- Lista de elementos del carrito -->
+        {% for item in items %}
+            <li class="list-group-item">
+                {{ item.juego.nombre }} - {{ item.cantidad }} - {{ item.juego.precio }} USD
+                <!-- Muestra el nombre del juego, la cantidad y el precio. -->
+                <a href="{% url 'eliminar_del_carrito' item.id %}" class="btn btn-danger btn-sm float-end">Eliminar</a>
+                <!-- Enlace para eliminar el juego del carrito. -->
+            </li>
+        {% empty %}
+            <li class="list-group-item">Tu carrito está vacío.</li>
+            <!-- Mensaje que se muestra si el carrito está vacío. -->
+        {% endfor %}
+    </ul>
+    <p class="mt-3">Total: {{ total }} USD</p>
+    <!-- Muestra el total del carrito. -->
+
+    <a href="{% url 'realizar_pedido' %}" class="btn btn-primary">Realizar Pedido</a>
+    <!-- Enlace para proceder a realizar el pedido. -->
+
+    <div class="mt-4 text-center">
+        <!-- Contenedor para el botón de retorno -->
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+        <!-- Enlace para regresar a la página de inicio. -->
+    </div>
+{% endblock %}

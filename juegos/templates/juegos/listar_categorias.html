@@ -1,0 +1,47 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html'. -->
+
+{% block title %}Lista de Categorías{% endblock %}
+<!-- Define el título de la página como "Lista de Categorías". -->
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Contenedor principal con margen superior. -->
+    <h2>Lista de Categorías</h2>
+    <!-- Título de la sección. -->
+    
+    <!-- Enlace para crear una categoría solo visible para superusuarios -->
+    {% if request.user.is_superuser %}
+    <!-- Verifica si el usuario es superusuario (administrador). Si lo es, muestra el botón para crear una nueva categoría. -->
+        <div class="mb-3">
+            <a href="{% url 'crear_categoria' %}" class="btn btn-primary">Crear Categoría</a>
+            <!-- Botón para redirigir a la vista de creación de categorías. -->
+        </div>
+    {% endif %}
+    
+    <ul>
+        {% for categoria in categorias %}
+        <!-- Itera sobre la lista de categorías y muestra cada una. -->
+            <li>
+                {{ categoria.nombre }} - {{ categoria.descripcion }}
+                <!-- Muestra el nombre y la descripción de cada categoría. -->
+
+                <!-- Enlaces para editar y eliminar una categoría solo visibles para superusuarios -->
+                {% if request.user.is_superuser %}
+                <!-- Solo los superusuarios pueden editar o eliminar una categoría. -->
+                    <a href="{% url 'editar_categoria' categoria.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <!-- Enlace para redirigir a la vista de edición de categoría. -->
+
+                    <a href="{% url 'eliminar_categoria' categoria.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    <!-- Enlace para redirigir a la vista de eliminación de categoría. -->
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Botón para regresar a la página principal. -->
+    <div class="mt-4 text-center"></div>
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+    </div>
+</div>
+{% endblock %}

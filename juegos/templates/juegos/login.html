@@ -1,0 +1,57 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la consistencia del diseño. -->
+
+{% block title %}Inicio de Sesión{% endblock %}
+<!-- Define el título de la página como "Inicio de Sesión". -->
+
+{% block content %}
+<main class="container mt-5">
+    <!-- Contenedor principal con clase 'container' y margen superior para centrar el contenido. -->
+
+    <div class="row justify-content-center">
+        <!-- Contenedor de fila para centrar el formulario en la página. -->
+        <div class="col-md-6 col-lg-4">
+            <!-- Contenedor de columna con tamaños responsivos para el formulario. -->
+            <h2 class="text-center mb-4">Inicio de Sesión</h2>
+            <!-- Título de la página de inicio de sesión. -->
+
+            {% if user.is_authenticated %}
+                <!-- Si el usuario ya está autenticado -->
+                <div class="alert alert-info text-center">
+                    <p>Ya has iniciado sesión como <strong>{{ user.username }}</strong>.</p>
+                    <!-- Mensaje informativo sobre el estado de inicio de sesión. -->
+                    <a href="{% url 'index' %}" class="btn btn-primary mt-3">Volver al inicio</a>
+                    <!-- Enlace para regresar a la página principal. -->
+                </div>
+            {% else %}
+                <!-- Mostrar el formulario de inicio de sesión solo si el usuario no está autenticado -->
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <!-- Token de seguridad para prevenir ataques CSRF. -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nombre de Usuario</label>
+                        <!-- Etiqueta para el campo de nombre de usuario. -->
+                        <input type="text" class="form-control" id="username" name="username" required>
+                        <!-- Campo de entrada para el nombre de usuario. -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <!-- Etiqueta para el campo de contraseña. -->
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <!-- Campo de entrada para la contraseña. -->
+                    </div>
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                        <!-- Botón para enviar el formulario y iniciar sesión. -->
+                    </div>
+                </form>
+                <!-- Botón de recuperación de contraseña -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'password_reset' %}" class="btn btn-link">¿Olvidaste tu contraseña?</a>
+                    <!-- Enlace para la recuperación de la contraseña en caso de olvido. -->
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

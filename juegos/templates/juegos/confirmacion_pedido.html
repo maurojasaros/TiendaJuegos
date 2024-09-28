@@ -1,0 +1,19 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener la estructura y el diseño consistentes del sitio. -->
+
+{% block title %}Confirmación de Pedido{% endblock %}
+<!-- Define el título de la página como "Confirmación de Pedido". -->
+
+{% block content %}
+    <h1>Confirmación de Pedido</h1>
+    <!-- Título principal de la página que indica la confirmación del pedido. -->
+
+    <p>Gracias por tu compra. Tu pedido ha sido realizado con éxito.</p>
+    <!-- Mensaje que agradece al usuario y confirma que el pedido se ha realizado con éxito. -->
+
+    <div class="mt-4 text-center">
+        <!-- Contenedor con un margen superior y centrado para el enlace de regreso. -->
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+        <!-- Enlace para regresar a la página de inicio, con un diseño de botón primario. -->
+    </div>
+{% endblock %}

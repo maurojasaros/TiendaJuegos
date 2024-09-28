@@ -1,0 +1,62 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html', que contiene la estructura principal de la página. -->
+
+{% load static %}
+<!-- Carga la etiqueta 'static' de Django para gestionar archivos estáticos como imágenes. -->
+
+{% block title %}Terror{% endblock %}
+<!-- Define el título de la página como "Terror", que aparecerá en la pestaña del navegador. -->
+
+{% block content %}
+<main class="container">
+    <!-- Contenedor principal de Bootstrap para asegurar márgenes y alineación adecuados. -->
+
+    <section>
+        <h2 class="text-center my-8">Juegos de terror</h2>
+        <!-- Título de la sección centrado con márgenes amplios arriba y abajo. -->
+
+        {% if juegos %}
+        <!-- Verifica si existe la lista de juegos antes de mostrarla. -->
+
+            <ul class="row list-unstyled">
+                <!-- Lista de juegos presentada en una cuadrícula responsiva gracias a las clases de Bootstrap 'row' y 'col'. 
+                     La clase 'list-unstyled' elimina el estilo predeterminado de listas. -->
+
+                {% for juego in juegos %}
+                    <!-- Itera sobre el queryset 'juegos', que contiene los juegos de la categoría terror. -->
+
+                    <li class="col-sm-6 col-md-4 mb-4">
+                        <!-- Cada juego ocupa 6 columnas en pantallas pequeñas y 4 columnas en pantallas medianas y grandes. -->
+
+                        <img src="{% static 'img/'|add:juego.nombre|add:'.jpg' %}" alt="{{ juego.nombre }}" class="img-fluid">
+                        <!-- Muestra la imagen del juego, donde el nombre del archivo se construye con el nombre del juego. 
+                             La clase 'img-fluid' asegura que la imagen sea responsiva. -->
+
+                        <p class="d-block text-center mt-2">{{ juego.nombre }}</p>
+                        <!-- Muestra el nombre del juego centrado y con un pequeño margen superior. -->
+
+                        <p class="d-block text-center mt-2">Precio: ${{ juego.precio }} CLP</p>
+                        <!-- Muestra el precio del juego en pesos chilenos, también centrado. -->
+
+                        <div class="text-center">
+                            <a href="{% url 'agregar_al_carrito' juego.id %}" class="btn btn-success">Añadir al Carrito</a>
+                            <!-- Botón que permite añadir el juego al carrito, enlazando a la vista 'agregar_al_carrito' con el ID del juego. -->
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <!-- Este bloque se muestra si no hay juegos disponibles en la categoría terror. -->
+            <p class="text-center">No hay juegos disponibles en la categoría de terror.</p>
+        {% endif %}
+    </section>
+
+    <div class="mt-4 text-center">
+        <!-- Botón de "Volver" que redirige al usuario a la página principal. Está centrado y separado del contenido con margen superior. -->
+        <a href="{% url 'index' %}" class="btn btn-primary">Volver</a>
+    </div>
+</main>
+{% endblock %}
+
+
+

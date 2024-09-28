@@ -1,0 +1,25 @@
+{% extends 'juegos/base_generic.html' %}
+<!-- Extiende el template base 'base_generic.html' para mantener una estructura y diseño consistentes. -->
+
+{% block title %}Editar Perfil{% endblock %}
+<!-- Define el título de la página como "Editar Perfil". -->
+
+{% block content %}
+<div class="container">
+    <!-- Contenedor principal para el contenido de la página. -->
+    <h2>Editar Perfil</h2>
+    <!-- Título principal que indica que se está editando el perfil del usuario. -->
+
+    <form method="post">
+        <!-- Formulario para editar el perfil, usando el método POST para enviar datos. -->
+        {% csrf_token %}
+        <!-- Token de seguridad para prevenir ataques CSRF. -->
+        
+        {{ form.as_p }}
+        <!-- Renderiza el formulario utilizando el formato de párrafos (<p>) de Django Forms. -->
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <!-- Botón para enviar el formulario y guardar los cambios en el perfil. -->
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+/* Estilo para el encabezado de la página */
+header {
+    background-color: lightseagreen; /* Establece el color de fondo del encabezado */
+    padding: 10px; /* Añade un relleno de 10px en todos los lados del encabezado */
+    text-align: center; /* Centra el texto dentro del encabezado */
+}
+
+/* Estilo general para el cuerpo de la página */
+body {
+    font-family: Arial, sans-serif; /* Establece la fuente principal del texto del cuerpo */
+    margin: 0; /* Elimina el margen por defecto del cuerpo */
+    padding: 0; /* Elimina el relleno por defecto del cuerpo */
+    background-color: #1ac36f !important; /* Establece un color de fondo verde, con !important para asegurarse de que este estilo no sea sobrescrito por otros estilos */
+    color: #333; /* Establece el color del texto a un gris oscuro */
+}
+
+/* Estilo para la barra de navegación */
+.navbar-light {
+    background-color: #aa5661 !important; /* Establece el color de fondo de la barra de navegación */
+    /* Cambia esto al color que desees */
+}
+
+/* Estilo para el encabezado de nivel 1 (h1) */
+h1 {
+    font-family: cursive; /* Cambia la fuente del encabezado a cursiva */
+    font-size: 2.5rem; /* Establece el tamaño de la fuente del encabezado a 2.5 rem */
+    color: #02101f; /* Establece el color del texto del encabezado a un azul muy oscuro */
+}
+
+/* Estilo para los encabezados de nivel 2 (h2) dentro de elementos con la clase .container */
+.container h2 {
+    font-size: 1.8rem; /* Establece el tamaño de la fuente de h2 a 1.8 rem */
+    color: rgb(105, 42, 42); /* Establece el color del texto de h2 a un rojo oscuro */
+}
+
+/* Estilo para los párrafos (p) */
+p {
+    font-size: 1.3rem; /* Establece el tamaño de la fuente de los párrafos a 1.3 rem */
+    color: #02101f; /* Establece el color del texto de los párrafos a un azul muy oscuro */
+    font-stretch: condensed; /* Ajusta el ancho de la fuente para que sea más delgada */
+    font-weight: bold; /* Hace que el texto del párrafo sea negrita */
+}
+
+/* Estilo para los enlaces (a) */
+a {
+    font-weight: bold; /* Hace que el texto de los enlaces sea negrita */
+}
+
+/* Estilo para las imágenes dentro de las listas (ul li img) */
+ul li img {
+    max-width: 100%; /* Asegura que las imágenes no se extiendan más allá del contenedor */
+    height: auto; /* Mantiene la proporción de la altura de la imagen */
+    border-radius: 10px; /* Redondea las esquinas de las imágenes */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra sutil alrededor de las imágenes */
+}
+
+/* Estilo para los enlaces dentro de las listas (ul li a) */
+ul li a {
+    font-size: 1.2rem; /* Establece el tamaño de la fuente de los enlaces dentro de las listas a 1.2 rem */
+    font-weight: bold; /* Hace que el texto de los enlaces sea negrita */
+    color: #007bff; /* Establece el color del texto de los enlaces a un azul brillante */
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
+
+/* Estilo para los enlaces dentro de las listas (ul li a) cuando el ratón pasa sobre ellos */
+ul li a:hover {
+    text-decoration: underline; /* Añade un subrayado a los enlaces cuando el ratón pasa sobre ellos */
+}
+
+/* Estilo para los párrafos dentro del pie de página (footer p) */
+footer p {
+    font-size: 0.9rem; /* Establece el tamaño de la fuente de los párrafos en el pie de página a 0.9 rem */
+    color: #050608; /* Establece el color del texto de los párrafos en el pie de página a un casi negro */
+}
+
+/* Estilo personalizado para los divs con la clase .estilo-div */
+.estilo-div {
+    margin-top: 20px; /* Añade un margen superior de 20px a los divs con esta clase */
+}
+
+/* Estilos responsivos para pantallas con un ancho máximo de 576px */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 2rem; /* Reduce el tamaño de la fuente de h1 a 2 rem en pantallas pequeñas */
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Reduce el tamaño de la fuente de h2 a 1.5 rem en pantallas pequeñas */
+    }
+
+    ul li a {
+        font-size: 1rem; /* Reduce el tamaño de la fuente de los enlaces dentro de las listas a 1 rem en pantallas pequeñas */
+    }
+}
