@@ -8,10 +8,12 @@
                 <ul class="list-group">
                     {% for plataforma in plataformas %}
                         <li class="list-group-item">
-                            <h2>{{ plataforma.name }}</h2>
+                            <h2 class="h4">{{ plataforma.name }}</h2> <!-- Tamaño del título más pequeño -->
                             <p>ID: {{ plataforma.id }}</p>
                             <p><strong>Juegos contados:</strong> {{ plataforma.games_count }}</p>
-                            <img src="{{ plataforma.image_background }}" alt="{{ plataforma.name }}" style="width: 100%; height: auto;">
+                            <div class="text-center mb-3"> <!-- Contenedor para centrar la imagen y espaciado inferior -->
+                                <img src="{{ plataforma.image_background }}" alt="{{ plataforma.name }}" class="img-fluid" style="max-width: 100%; height: auto;"> <!-- Imagen responsiva -->
+                            </div>
                             
                             {% if plataforma.year_start %}
                                 <p><strong>Año de lanzamiento:</strong> {{ plataforma.year_start }}</p>
@@ -25,8 +27,8 @@
                                 <p><strong>Descripción:</strong> {{ plataforma.description }}</p>
                             {% endif %}
                             
-                            <h3>Juegos Disponibles:</h3>
-                            <ul>
+                            <h3 class="h5">Juegos Disponibles:</h3> <!-- Tamaño del subtítulo -->
+                            <ul class="list-unstyled"> <!-- Lista sin estilo -->
                                 {% for juego in plataforma.games %}
                                     <li>{{ juego.name }}</li>
                                 {% empty %}
