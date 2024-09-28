@@ -58,4 +58,7 @@ urlpatterns = [
     
     # Confirmación del pedido realizado
     path('confirmacion_pedido/<int:pedido_id>/', views.confirmacion_pedido, name='confirmacion_pedido'),
+
+    #Api
+    path('api/juegos/', views.juego_list, name='juegos_api'),
 ]
