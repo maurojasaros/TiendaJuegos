@@ -388,6 +388,7 @@ class JuegoViewSet(viewsets.ModelViewSet):
 # Vista que lista los juegos y asigna los api_ids manualmente
 #OBS: tuve que agregarle a cada juego su api_id ya que de otra manera no me podia redireccionar al servicio web externo y a la vez usar mi propio estilo de pagina
 #Es importante recalcar que si se crea un nuevo juego, se debe definir su api_ids, de modo que redireccione al servicio web externo
+# Vista que lista los juegos y asigna los api_ids manualmente
 @login_required
 @user_passes_test(is_admin)
 def lista_juegos(request):
@@ -399,14 +400,13 @@ def lista_juegos(request):
         1: 3790,      # Outlast
         2: 4570,      # Dead Space
         3: 823549,    # Fifa 23
-        4: 463733,     #UFC
-        5: 450393,      #Halo
-        6: 19369,       #Call of duty
-        7: 301511,      #Final Fantasy xii
-        8: 46667,       #Octopath traveler
-        9: 22511,       #The legend of Zelda
-        10: 24919       #Mario bros
-        # Añade otros juegos aquí según lo que tienes en tu base de datos
+        4: 463733,    # UFC
+        5: 450393,    # Halo
+        6: 19369,     # Call of duty
+        7: 301511,    # Final Fantasy xii
+        8: 46667,     # Octopath traveler
+        9: 22511,     # The legend of Zelda
+        10: 24919     # Mario bros
     }
 
     # Asignar el api_id a cada juego desde el diccionario y guardarlo en la base de datos

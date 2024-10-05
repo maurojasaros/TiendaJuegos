@@ -2,6 +2,25 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from .views import CustomLoginView, agregar_al_carrito, ver_carrito, eliminar_del_carrito, realizar_pedido
+from django.urls import path, include
+from . import views
+from django.contrib.auth import views as auth_views
+from .views import CustomLoginView
+from rest_framework.routers import DefaultRouter
+from .views import JuegoViewSet, CategoriaViewSet
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
+# Creamos un router que se encargará de las rutas de los ViewSets
+router = DefaultRouter()
+router.register(r'juegos', JuegoViewSet)
+router.register(r'categorias', CategoriaViewSet)
+
+
 
 urlpatterns = [
     # Página principal del sitio
@@ -67,5 +86,10 @@ urlpatterns = [
     # Consolas de videojuegos
     path('consolas/', views.consolas_videojuegos, name='consolas_videojuegos'),
     path('juego/detalle/<int:game_id>/', views.detalles_juego, name='detalles_juego'),
+
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
+
 ]
     
