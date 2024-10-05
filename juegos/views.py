@@ -261,6 +261,14 @@ from django.contrib.auth.decorators import login_required
 from .models import Juego, Carrito, ItemCarrito
 from django.contrib import messages
 
+
+
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Juego, Categoria
+from .serializers import JuegoSerializer, CategoriaSerializer
+
+
 @login_required
 def agregar_al_carrito(request, juego_id):
     # Obtén el juego por ID
@@ -359,51 +367,23 @@ import requests
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-# VISTA PARA LISTAR JUEGOS (GET) Y CREAR NUEVO JUEGO (POST)
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-def juego_list(request):
-    if request.method == 'GET':
-        # Obtener todos los juegos
-        juegos = Juego.objects.all()
-        serializer = JuegoSerializer(juegos, many=True)
-        return Response(serializer.data)
+# ViewSet para el modelo Juego
+class JuegoViewSet(viewsets.ModelViewSet):
+    queryset = Juego.objects.all()  # Recupera todos los juegos
+    serializer_class = JuegoSerializer  # Usar el serializador definido para Juego
+    permission_classes = [IsAuthenticated]  # Requiere que el usuario esté autenticado para acceder
 
-    elif request.method == 'POST':
-        # Crear un nuevo juego
-        serializer = JuegoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        # Si quieres personalizar el proceso de creación (POST), puedes agregar lógica aquí
+        serializer.save()
 
-# VISTA PARA OBTENER, ACTUALIZAR Y ELIMINAR UN JUEGO ESPECÍFICO
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])
-def juego_detail(request, juego_id):
-    try:
-        # Buscar el juego por su ID
-        juego = Juego.objects.get(pk=juego_id)
-    except Juego.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    def perform_update(self, serializer):
+        # Si quieres personalizar el proceso de actualización (PUT), puedes agregar lógica aquí
+        serializer.save()
 
-    if request.method == 'GET':
-        # Obtener detalles de un juego específico
-        serializer = JuegoSerializer(juego)
-        return Response(serializer.data)
-
-    elif request.method == 'PUT':
-        # Actualizar un juego específico
-        serializer = JuegoSerializer(juego, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        # Eliminar un juego específico
-        juego.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def perform_destroy(self, instance):
+        # Si quieres personalizar el proceso de eliminación (DELETE), puedes agregar lógica aquí
+        instance.delete()
 
 # Vista que lista los juegos y asigna los api_ids manualmente
 #OBS: tuve que agregarle a cada juego su api_id ya que de otra manera no me podia redireccionar al servicio web externo y a la vez usar mi propio estilo de pagina
@@ -438,45 +418,23 @@ def lista_juegos(request):
     return render(request, 'juegos/terror.html', {'juegos': juegos})
 
 
-# Listar todas las categorías o crear una nueva
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])  # Requiere autenticación
-def categoria_list(request):
-    if request.method == 'GET':
-        categorias = Categoria.objects.all()
-        serializer = CategoriaSerializer(categorias, many=True)
-        return Response(serializer.data)
+# ViewSet para el modelo Categoria
+class CategoriaViewSet(viewsets.ModelViewSet):
+    queryset = Categoria.objects.all()  # Recupera todas las categorías
+    serializer_class = CategoriaSerializer  # Usar el serializador definido para Categoria
+    permission_classes = [IsAuthenticated]  # Requiere autenticación
 
-    elif request.method == 'POST':
-        serializer = CategoriaSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        # Personaliza el proceso de creación si es necesario
+        serializer.save()
 
-# Obtener, actualizar o eliminar una categoría
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticated])  # Requiere autenticación
-def categoria_detail(request, pk):
-    try:
-        categoria = Categoria.objects.get(pk=pk)
-    except Categoria.DoesNotExist:
-        return Response({'error': 'Categoría no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+    def perform_update(self, serializer):
+        # Personaliza el proceso de actualización si es necesario
+        serializer.save()
 
-    if request.method == 'GET':
-        serializer = CategoriaSerializer(categoria)
-        return Response(serializer.data)
-
-    elif request.method == 'PUT':
-        serializer = CategoriaSerializer(categoria, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    elif request.method == 'DELETE':
-        categoria.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def perform_destroy(self, instance):
+        # Personaliza el proceso de eliminación si es necesario
+        instance.delete()
 
 
 
